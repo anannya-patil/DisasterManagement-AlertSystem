@@ -16,13 +16,27 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
+    // Create profile
     @PostMapping
     public Profile create(@RequestBody Profile profile) {
         return profileService.save(profile);
     }
 
+    // Get all profiles
     @GetMapping
     public List<Profile> getAll() {
         return profileService.getAll();
+    }
+
+    // Update profile
+    @PutMapping("/{id}")
+    public Profile update(@PathVariable Long id, @RequestBody Profile profile) {
+        return profileService.update(id, profile);
+    }
+
+    // Filter by region
+    @GetMapping("/region/{region}")
+    public List<Profile> getByRegion(@PathVariable String region) {
+        return profileService.getByRegion(region);
     }
 }
