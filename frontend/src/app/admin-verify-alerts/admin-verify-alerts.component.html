@@ -1,0 +1,38 @@
+<div class="admin-container">
+  <h2>Verify Pending Disaster Alerts</h2>
+  
+  <!-- Messages -->
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+  
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+  
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">
+    Loading pending alerts...
+  </div>
+  
+  <!-- No Pending Alerts -->
+  <div *ngIf="!loading && pendingDisasters.length === 0" class="no-data">
+    No pending disaster alerts to verify.
+  </div>
+  
+  <!-- Pending Alerts List -->
+  <div *ngIf="!loading && pendingDisasters.length > 0" class="pending-list">
+    <div *ngFor="let disaster of pendingDisasters" class="pending-card">
+      
+      <!-- Edit Mode -->
+      <div *ngIf="editingDisaster?.id === disaster.id" class="edit-mode">
+        <h3>Edit Disaster Alert</h3>
+        
+        <div class="form-group">
+          <label>Title:</label>
+          <input [(ngModel)]="editingDisaster!.title" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label>Description:</label>
+          <textarea [(

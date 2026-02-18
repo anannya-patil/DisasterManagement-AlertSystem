@@ -9,6 +9,7 @@ import { AlertsViewComponent } from './alerts-view/alerts-view.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
+import { DisasterListComponent } from './disaster-list/disaster-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -35,6 +36,11 @@ export const routes: Routes = [
   { 
     path: 'profile', 
     component: ProfileFormComponent, 
+    canActivate: [AuthGuard] 
+  },
+    { 
+    path: 'disasters', 
+    component: DisasterListComponent, 
     canActivate: [AuthGuard] 
   },
   { 

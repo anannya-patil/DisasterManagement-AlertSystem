@@ -1,0 +1,105 @@
+<div class="disaster-list-container">
+  <h2>Live Disaster Updates</h2>
+  
+  <!-- Filters -->
+  <app-disaster-filters (filterChange)="onFilterChange($event)"></app-disaster-filters>
+  
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    Loading disasters...
+  </div>
+  
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  
+  <!-- Disaster Cards -->
+  <div *ngIf="!loading && !errorMessage" class="disasters-grid">
+    <div *ngFor="let disaster of disasters" class="disaster-card" 
+         [class.verified]="disaster.status === 'VERIFIED'"
+         [class.pending]="disaster.status === 'PENDING'">
+      
+      <div class="card-header">
+        <h3>{{ disaster.title }}</h3>
+        <span class="status-badge" [class]="disaster.status.toLowerCase()">
+          {{ disaster.status }}
+        </span>
+      </div>
+      
+      <div class="card-body">
+        <p class="description">{{ disaster.description }}</p>
+        
+        <div class="details-grid">
+          <div class="detail-item">
+            <strong>Type:</strong> {{ disaster.disasterType }}
+          </div>
+          <div class="detail-item">
+            <strong>Severity:</strong> 
+            <span class="severity-badge" [class]="getSeverityClass(disaster.severity)">
+              {{ disaster.severity }}
+            </span>
+          </div>
+          <div class="detail-item">
+            <strong>Location:</strong> {{ disaster.locationName }}
+          </div>
+          <div class="detail-item">
+            <strong>Time:</strong> {{ disaster.eventTime | date:'medium' }}
+          </div>
+          <div class="detail-item">
+            <strong>Source:</strong> {{ disaster.source }}
+          </div>
+        </div>
+        
+        <div *ngIf="disaster.status === 'VERIFIED'" class="coordinates">
+          📍 {{ disaster.latitude | number:'1.2-2' }}, {{ disaster.longitude | number:'1.2-2' }}
+        </div>
+      </div>
+      
+      <!-- Admin Actions -->
+      <div *ngIf="userRole === 'ADMIN' && disaster.status === 'PENDING'" class="admin-actions">
+        <button class="btn-approve" (click)="onApprove(disaster.id)">Approve</button>
+        <button class="btn-reject" (click)="onReject(disaster.id)">Reject</button>
+        <button class="btn-edit" (click)="onEdit(disaster)">Edit</button>
+      </div>
+      
+      <!-- Responder View -->
+      <div *ngIf="userRole === 'RESPONDER'" class="responder-actions">
+        <button class="btn-assign" (click)="onAssign(disaster.id)">Accept Task</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Pagination -->
+  <div *ngIf="!loading && totalPages > 0" class="pagination">
+    <div class="pagination-controls">
+      <button [disabled]="currentPage === 0" (click)="onPageChange(currentPage - 1)">
+        Previous
+      </button>
+      
+      <span *ngFor="let page of getPages()" 
+            class="page-number"
+            [class.active]="page === currentPage"
+            (click)="onPageChange(page)">
+        {{ page + 1 }}
+      </span>
+      
+      <button [disabled]="currentPage === totalPages - 1" (click)="onPageChange(currentPage + 1)">
+        Next
+      </button>
+    </div>
+    
+    <div class="page-size">
+      <select (change)="onPageSizeChange($event)">
+        <option *ngFor="let size of pageSizeOptions" [value]="size" [selected]="size === pageSize">
+          {{ size }} per page
+        </option>
+      </select>
+    </div>
+    
+    <div class="page-info">
+      Showing {{ currentPage * pageSize + 1 }} - 
+      {{ min((currentPage + 1) * pageSize, totalElements) }} of {{ totalElements }} disasters
+    </div>
+  </div>
+</div>

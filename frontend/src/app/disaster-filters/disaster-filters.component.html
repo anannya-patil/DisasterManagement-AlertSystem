@@ -1,0 +1,59 @@
+<div class="filters-container">
+  <h3>Filter Disasters</h3>
+  
+  <div class="filter-row">
+    <div class="filter-group">
+      <label>Disaster Type:</label>
+      <select (change)="onTypeChange($any($event.target).value)">
+        <option value="">All Types</option>
+        <option *ngFor="let type of disasterTypes" [value]="type">{{ type }}</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Severity:</label>
+      <select (change)="onSeverityChange($any($event.target).value)">
+        <option value="">All Severities</option>
+        <option *ngFor="let level of severityLevels" [value]="level">{{ level }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="filter-row">
+    <div class="filter-group">
+      <label>Location:</label>
+      <input 
+        type="text" 
+        [(ngModel)]="locationInput" 
+        placeholder="Enter city name"
+        (keyup.enter)="onLocationSearch()"
+      >
+      <button (click)="onLocationSearch()">Search</button>
+    </div>
+
+    <div class="filter-group">
+      <label>Live Updates Only:</label>
+      <input 
+        type="checkbox" 
+        [checked]="filter.liveOnly"
+        (change)="onLiveOnlyChange($any($event.target).checked)"
+      >
+    </div>
+  </div>
+
+  <div class="filter-row">
+    <div class="filter-group">
+      <label>From Date:</label>
+      <input type="date" [(ngModel)]="startDateInput" (change)="onDateRangeChange()">
+    </div>
+
+    <div class="filter-group">
+      <label>To Date:</label>
+      <input type="date" [(ngModel)]="endDateInput" (change)="onDateRangeChange()">
+    </div>
+  </div>
+
+  <div class="filter-actions">
+    <button (click)="clearFilters()" class="btn-secondary">Clear Filters</button>
+  </div>
+</div>
