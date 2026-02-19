@@ -13,7 +13,9 @@
       <h2>Current Alerts</h2>
       <div class="alerts-list">
         <div *ngFor="let alert of alerts" class="alert-item">
-          🔴 {{ alert }}
+          <strong>{{ alert.disasterType }}</strong> -
+          {{ alert.title }}
+          ({{ alert.severity }})
         </div>
         <div *ngIf="alerts.length === 0" class="no-alerts">
           No active alerts in your area

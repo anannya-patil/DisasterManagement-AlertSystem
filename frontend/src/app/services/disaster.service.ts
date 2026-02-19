@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class DisasterService {
-  private apiUrl = 'http://localhost:8080/api/disasters';  // ✅ Correct with /api
+  private apiUrl = 'http://localhost:8080/disasters';
 private adminUrl = 'http://localhost:8080/admin/disasters';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
