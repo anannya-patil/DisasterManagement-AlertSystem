@@ -112,4 +112,23 @@ public class DisasterEventService {
                 pageable
         );
     }
+
+    public DisasterEvent update(Long id, DisasterEvent updatedData) {
+
+        DisasterEvent existing = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Disaster not found"));
+
+        existing.setTitle(updatedData.getTitle());
+        existing.setDescription(updatedData.getDescription());
+        existing.setDisasterType(updatedData.getDisasterType());
+        existing.setSeverity(updatedData.getSeverity());
+        existing.setLatitude(updatedData.getLatitude());
+        existing.setLongitude(updatedData.getLongitude());
+        existing.setLocationName(updatedData.getLocationName());
+        existing.setSource(updatedData.getSource());
+        existing.setMagnitude(updatedData.getMagnitude());
+        existing.setEventTime(updatedData.getEventTime());
+
+        return repository.save(existing);
+    }
 }

@@ -86,4 +86,13 @@ public class AdminController {
     public DisasterEvent resolve(@PathVariable Long id) {
         return disasterService.resolve(id);
     }
+
+    //edit disaster
+    @PutMapping("/disasters/{id}")
+    public DisasterEvent updateDisaster(
+            @PathVariable Long id,
+            @RequestBody DisasterEvent updatedData
+    ) {
+        return disasterService.update(id, updatedData);
+    }
 }
