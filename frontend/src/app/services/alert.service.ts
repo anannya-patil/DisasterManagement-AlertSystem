@@ -7,7 +7,8 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class AlertService {
-  private apiUrl = 'http://localhost:8080/citizen';
+
+  private baseUrl = 'http://localhost:8080/api';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -19,21 +20,77 @@ export class AlertService {
     });
   }
 
+  // ========================
+  // CITIZEN APIs
+  // ========================
+
   getAlerts(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/alerts`, { headers: this.getHeaders() });
+    return this.http.get(`${this.baseUrl}/alerts`, {
+      headers: this.getHeaders()
+    });
   }
 
   requestRescue(location: string, message: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/request-rescue`, 
-      { location, message }, 
-      { headers: this.getHeaders(), responseType: 'text' }
+    return this.http.post(`${this.baseUrl}/citizen/request-rescue`,
+      { location, message },
+      { headers: this.getHeaders(), responseType: 'text' as 'json' }
     );
   }
 
   reportIncident(type: string, location: string, description: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/report-incident`,
+    return this.http.post(`${this.baseUrl}/citizen/report-incident`,
       { type, location, description },
       { headers: this.getHeaders(), responseType: 'text' }
     );
   }
+
+  // ========================
+  // ADMIN APIs
+  // ========================
+
+  broadcastAlert(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/admin/alerts`,
+      data,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  resolveAlert(id: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/admin/alerts/${id}/resolve`,
+      {},
+      { headers: this.getHeaders() }
+    );
+  }
+
+  // ========================
+  // RESPONDER APIs
+  // ========================
+
+  getResponderAlerts(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/responder/alerts`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  acknowledgeAlert(id: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/responder/alerts/${id}/acknowledge`,
+      {},
+      { headers: this.getHeaders() }
+    );
+  }
+}
+requestRescue(location: string, message: string): Observable<any> {
+  return this.http.post(
+    `${this.baseUrl}/citizen/request-rescue`,
+    { location, message },
+    { headers: this.getHeaders(), responseType: 'text' as 'json' }
+  );
+}
+
+reportIncident(type: string, location: string, description: string): Observable<any> {
+  return this.http.post(
+    `${this.baseUrl}/citizen/report-incident`,
+    { type, location, description },
+    { headers: this.getHeaders(), responseType: 'text' as 'json' }
+  );
 }
