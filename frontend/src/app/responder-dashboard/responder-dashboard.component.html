@@ -1,1 +1,85 @@
-<p>responder-dashboard works!</p>
+<div class="dashboard-container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h3>Responder Portal</h3>
+    <p>Welcome, {{ userEmail }}</p>
+
+    <button class="btn btn-logout" (click)="logout()">Logout</button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <h1>Responder Dashboard</h1>
+
+    <!-- ACTIVE ALERTS -->
+    <div class="section">
+      <h2>Active Alerts</h2>
+
+      <div class="alerts-list">
+
+        <div *ngFor="let alert of alerts" class="alert-item">
+
+          <strong>{{ alert.title }}</strong>
+
+          <div style="margin-top:8px;">
+            Region: {{ alert.region }}
+          </div>
+
+          <div style="margin-top:10px;">
+
+            <button *ngIf="!alert.acknowledged"
+                    class="btn btn-primary"
+                    (click)="acknowledge(alert.id)">
+                Acknowledge
+            </button>
+
+            <span *ngIf="alert.acknowledged"
+                    style="color:#27ae60; font-weight:bold;">
+                Acknowledged
+            </span>
+
+            </div>
+
+        </div>
+
+        <div *ngIf="alerts.length === 0" class="no-alerts">
+          No active alerts.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ASSIGNED EMERGENCY REQUESTS -->
+    <div class="section">
+
+      <h2>Assigned Emergency Requests</h2>
+
+      <div class="alerts-list">
+
+        <div *ngFor="let req of emergencyRequests" class="alert-item">
+
+          <strong>{{ req.description }}</strong>
+
+          <div style="margin-top:8px;">
+            Region: {{ req.region }}
+          </div>
+
+          <div style="margin-top:8px;">
+            Status: {{ req.status }}
+          </div>
+
+        </div>
+
+        <div *ngIf="emergencyRequests.length === 0" class="no-alerts">
+          No assigned emergency requests.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

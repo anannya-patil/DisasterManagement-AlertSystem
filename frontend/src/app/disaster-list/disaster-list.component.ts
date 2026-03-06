@@ -8,6 +8,7 @@ import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import { DisasterFiltersComponent } from '../disaster-filters/disaster-filters.component';
 import { Router } from '@angular/router';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-disaster-list',
@@ -20,7 +21,10 @@ import { Router } from '@angular/router';
   templateUrl: './disaster-list.component.html',
   styleUrls: ['./disaster-list.component.css']
 })
+
 export class DisasterListComponent implements OnInit, OnDestroy {
+  DisasterStatus = DisasterStatus;
+
   // ========== DATA PROPERTIES ==========
   disasters: DisasterEvent[] = [];
   
@@ -58,7 +62,8 @@ export class DisasterListComponent implements OnInit, OnDestroy {
     private disasterService: DisasterService,
     private webSocketService: WebSocketService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     this.userRole = this.authService.getUserRole();
   }
@@ -271,5 +276,28 @@ export class DisasterListComponent implements OnInit, OnDestroy {
       'CRITICAL': 'critical'
     };
     return classes[severity] || '';
+  }
+
+  prepareAlert(disaster: any): void {
+
+    const payload = {
+      title: `${disaster.disasterType} Alert`,
+      message: `Emergency alert for ${disaster.locationName}. Please follow safety instructions.`,
+      region: disaster.locationName,
+      // severity: disaster.severity,
+      disasterId: disaster.id
+    };
+
+    this.alertService.broadcastAlert(payload).subscribe({
+      next: () => {
+        disaster.alertSent = true;
+        alert("Alert broadcasted successfully");
+      },
+      error: (err) => {
+        console.error(err);
+        alert("Failed to broadcast alert");
+      }
+    });
+
   }
 }

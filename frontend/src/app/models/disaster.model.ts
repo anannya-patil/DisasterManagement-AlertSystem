@@ -30,12 +30,13 @@ export interface DisasterEvent {
   longitude: number;
   locationName: string;
   source: string;
-  magnitude?: number;  // ✅ ADD THIS LINE (optional with ?)
+  magnitude?: number;
   eventTime: Date;
   status: DisasterStatus;
   createdAt: Date;
   approvedBy?: string;
   approvedAt?: Date;
+  alertSent?: boolean;
 }
 
 export interface DisasterFilter {

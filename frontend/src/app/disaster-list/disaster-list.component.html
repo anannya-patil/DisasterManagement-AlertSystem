@@ -21,13 +21,13 @@
       </select>
       
       <select (change)="onSeverityChange($event)" class="filter-select">
-        <option value="">Severity ▼</option>
+        <option value="">Severity</option>
         <option *ngFor="let level of severityLevels" [value]="level">{{level}}</option>
       </select>
       
       <!-- UPDATED: Location dropdown now uses uniqueLocations from database -->
       <select (change)="onLocationChange($event)" class="filter-select">
-        <option value="">All Locations ▼</option>
+        <option value="">All Locations</option>
         <option *ngFor="let loc of uniqueLocations" [value]="loc">{{loc}}</option>
       </select>
     </div>
@@ -65,7 +65,7 @@
     
     <!-- Error Message -->
     <div *ngIf="errorMessage" class="error-message">
-      ⚠️ {{ errorMessage }}
+      {{ errorMessage }}
     </div>
     
     <!-- Disaster Cards from Database -->
@@ -86,47 +86,64 @@
         
         <div class="alert-details">
           <p class="alert-location">
-            <span class="location-icon">📍</span> {{ disaster.locationName }}
+            <span class="location-icon"></span> {{ disaster.locationName }}
           </p>
           <p class="alert-time">
-            <span class="time-icon">🕒</span> {{ disaster.eventTime | date:'medium' }}
+            <span class="time-icon"></span> {{ disaster.eventTime | date:'medium' }}
           </p>
           <p class="alert-source">
-            <span class="source-icon">📡</span> {{ disaster.source }}
+            <span class="source-icon"></span> {{ disaster.source }}
           </p>
           <p *ngIf="disaster.magnitude" class="alert-magnitude">
-            <span class="magnitude-icon">📊</span> Magnitude: {{ disaster.magnitude }}
+            <span class="magnitude-icon"></span> Magnitude: {{ disaster.magnitude }}
           </p>
         </div>
         
-        <!-- ✅ FIXED: Single status display - Only show for non-pending disasters -->
         <div *ngIf="disaster.status !== 'PENDING'" 
              class="status-badge" 
              [class]="disaster.status.toLowerCase()">
           {{ disaster.status }}
         </div>
         
-        <!-- ✅ FIXED: Admin Actions - Only show for PENDING disasters -->
-        <div *ngIf="userRole === 'ADMIN' && disaster.status === 'PENDING'" 
-             class="admin-actions">
-          <button class="btn-approve" (click)="approveDisaster(disaster.id)" title="Approve this alert">
-            ✓ Approve
-          </button>
-          <button class="btn-reject" (click)="rejectDisaster(disaster.id)" title="Reject this alert">
-            ✗ Reject
-          </button>
-          <button class="btn-edit" (click)="editDisaster(disaster)" title="Edit details">
-            ✎ Edit
-          </button>
-        </div>
+        <div *ngIf="userRole === 'ADMIN'" class="admin-actions">
 
-        <!-- ❌ REMOVED: Duplicate verified-badge section -->
-        
+          <!-- PENDING disasters -->
+          <ng-container *ngIf="disaster.status === DisasterStatus.PENDING">
+
+            <button class="btn-approve"
+                    (click)="approveDisaster(disaster.id)">
+              Approve
+            </button>
+
+            <button class="btn-reject"
+                    (click)="rejectDisaster(disaster.id)">
+              Reject
+            </button>
+
+            <button class="btn-edit"
+                    (click)="editDisaster(disaster)">
+              Edit
+            </button>
+
+          </ng-container>
+
+          <!-- APPROVED disasters -->
+          <ng-container *ngIf="disaster.status === DisasterStatus.VERIFIED">
+
+            <button class="btn-approve"
+                    [disabled]="disaster.alertSent"
+                    (click)="prepareAlert(disaster)">
+              Broadcast Alert
+            </button>
+
+          </ng-container>
+
+        </div>
       </div>
       
       <!-- No Data Message -->
       <div *ngIf="disasters.length === 0" class="no-data">
-        <p>🌍 No disasters found matching your criteria.</p>
+        <p>No disasters found matching your criteria.</p>
         <p class="no-data-hint">Try adjusting your filters or check back later.</p>
       </div>
     </div>

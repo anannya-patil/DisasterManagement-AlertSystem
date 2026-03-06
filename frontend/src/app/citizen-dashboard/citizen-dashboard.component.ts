@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DisasterService } from '../services/disaster.service';
 import { AuthService } from '../services/auth.service';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-citizen-dashboard',
@@ -29,6 +30,7 @@ export class CitizenDashboardComponent implements OnInit {
 
   constructor(
     private disasterService: DisasterService,
+    private alertService: AlertService,
     private authService: AuthService,
     private router: Router
   ) {
@@ -89,9 +91,27 @@ export class CitizenDashboardComponent implements OnInit {
   //   });
   // }
 
-  requestRescue(): void {
-    console.log("Rescue feature not connected yet.");
-  }
+requestRescue(): void {
+
+  const region = this.location;
+  const description = this.message;
+
+  const latitude = 0;
+  const longitude = 0;
+
+  this.alertService.requestRescue(region, description).subscribe({
+    next: (response) => {
+      this.rescueResponse = "Emergency request sent successfully";
+      this.location = '';
+      this.message = '';
+    },
+    error: (error) => {
+      console.error("Error sending rescue request", error);
+      this.rescueResponse = "Failed to send emergency request";
+    }
+  });
+
+}
 
   reportIncident(): void {
     console.log("Incident feature not connected yet.");
