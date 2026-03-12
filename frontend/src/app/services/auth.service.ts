@@ -17,12 +17,11 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  // ✅ FIXED: Added responseType: 'text'
   register(email: string, password: string, role: string): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/register`, 
       { email, password, role }, 
-      { responseType: 'text' }  // ← THIS FIXES THE ISSUE
+      { responseType: 'text' }
     );
   }
 
@@ -69,6 +68,19 @@ export class AuthService {
 
   getUserEmail(): string | null {
     return localStorage.getItem(this.userEmailKey);
+  }
+
+  getUserId(): number | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.userId || null;
+    } catch (e) {
+      console.error("Error decoding token", e);
+      return null;
+    }
   }
 
   logout(): void {

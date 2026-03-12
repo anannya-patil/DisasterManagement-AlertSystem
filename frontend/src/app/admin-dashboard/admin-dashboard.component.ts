@@ -5,6 +5,7 @@ import { DisasterService } from '../services/disaster.service';
 import { AlertService } from '../services/alert.service';   // NEW
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { RescueService } from '../services/rescue.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -18,16 +19,24 @@ export class AdminDashboardComponent implements OnInit {
   pendingDisasters: any[] = [];
   userEmail = '';
 
-  // NEW — Alert form fields
   alertTitle = '';
   alertMessage = '';
   alertRegion = '';
   alertDisasterId: number | null = null;
   alertResponse = '';
 
+  taskDisasterId:number|null=null;
+  taskResponderId:number|null=null;
+  taskZone='';
+  taskDescription='';
+  taskLatitude:number|null=null;
+  taskLongitude:number|null=null;
+  taskResponse='';
+
   constructor(
     private disasterService: DisasterService,
-    private alertService: AlertService,   // NEW
+    private alertService: AlertService,
+    private rescueService: RescueService,
     private authService: AuthService,
     private router: Router
   ) {
@@ -65,7 +74,6 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-  // NEW — Broadcast Alert
   broadcastAlert(): void {
 
     const payload = {
@@ -88,6 +96,38 @@ export class AdminDashboardComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.alertResponse = "Failed to broadcast alert";
+      }
+    });
+
+  }
+
+  assignTask():void{
+
+  const payload={
+    disasterId:this.taskDisasterId,
+    responderId:this.taskResponderId,
+    zone:this.taskZone,
+    taskDescription:this.taskDescription,
+    latitude:this.taskLatitude,
+    longitude:this.taskLongitude
+  };
+
+    this.rescueService.assignTask(payload).subscribe({
+      next:()=>{
+        this.taskResponse="Task assigned successfully";
+
+        this.taskDisasterId=null;
+        this.taskResponderId=null;
+        this.taskZone='';
+        this.taskDescription='';
+        this.taskLatitude=null;
+        this.taskLongitude=null;
+
+        setTimeout(()=>this.taskResponse='',4000);
+      },
+      error:(err)=>{
+        console.error(err);
+        this.taskResponse="Failed to assign task";
       }
     });
 

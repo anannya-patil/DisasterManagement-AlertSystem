@@ -1,85 +1,105 @@
 <div class="dashboard-container">
-
-  <!-- SIDEBAR -->
   <div class="sidebar">
     <h3>Responder Portal</h3>
     <p>Welcome, {{ userEmail }}</p>
-
     <button class="btn btn-logout" (click)="logout()">Logout</button>
   </div>
 
-  <!-- MAIN CONTENT -->
   <div class="main-content">
-
     <h1>Responder Dashboard</h1>
-
-    <!-- ACTIVE ALERTS -->
     <div class="section">
       <h2>Active Alerts</h2>
-
       <div class="alerts-list">
-
         <div *ngFor="let alert of alerts" class="alert-item">
-
           <strong>{{ alert.title }}</strong>
-
           <div style="margin-top:8px;">
             Region: {{ alert.region }}
           </div>
-
           <div style="margin-top:10px;">
-
             <button *ngIf="!alert.acknowledged"
                     class="btn btn-primary"
                     (click)="acknowledge(alert.id)">
                 Acknowledge
             </button>
-
             <span *ngIf="alert.acknowledged"
                     style="color:#27ae60; font-weight:bold;">
                 Acknowledged
             </span>
-
-            </div>
-
+          </div>
         </div>
-
         <div *ngIf="alerts.length === 0" class="no-alerts">
           No active alerts.
         </div>
-
       </div>
     </div>
 
-    <!-- ASSIGNED EMERGENCY REQUESTS -->
     <div class="section">
-
       <h2>Assigned Emergency Requests</h2>
-
       <div class="alerts-list">
-
         <div *ngFor="let req of emergencyRequests" class="alert-item">
-
           <strong>{{ req.description }}</strong>
-
           <div style="margin-top:8px;">
             Region: {{ req.region }}
           </div>
-
           <div style="margin-top:8px;">
             Status: {{ req.status }}
           </div>
-
         </div>
-
         <div *ngIf="emergencyRequests.length === 0" class="no-alerts">
           No assigned emergency requests.
         </div>
-
       </div>
-
     </div>
 
+    <div class="section">
+      <h2>Assigned Rescue Tasks</h2>
+      <div class="alerts-list">
+        <div *ngFor="let task of rescueTasks" class="alert-item">
+          <strong>{{ task.taskDescription }}</strong>
+          <div style="margin-top:8px;">
+            Zone: {{ task.zone }}
+          </div>
+          <div style="margin-top:8px;">
+            Status: {{ task.taskStatus }}
+          </div>
+          <div style="margin-top:8px;">
+            Location: {{ task.latitude }}, {{ task.longitude }}
+          </div>
+          <div style="margin-top:10px;">
+            <button *ngIf="task.taskStatus === 'ASSIGNED'"
+                    class="btn btn-primary"
+                    (click)="startTask(task.id)">
+              Start Task
+            </button>
+            <button *ngIf="task.taskStatus === 'IN_PROGRESS'"
+                    class="btn"
+                    style="background:#27ae60;color:white"
+                    (click)="completeTask(task.id)">
+              Complete Task
+            </button>
+            <button *ngIf="task.taskStatus === 'COMPLETED'"
+                    class="btn"
+                    style="background:#e67e22;color:white"
+                    (click)="openReportForm(task.id)">
+              Submit Report
+            </button>
+          </div>
+        </div>
+        <div *ngIf="rescueTasks.length === 0" class="no-alerts">
+          No rescue tasks assigned.
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedTaskId" class="section">
+
+      <h2>Submit Incident Report</h2>
+      <textarea [(ngModel)]="reportDetails" placeholder="Describe what happened during the rescue..." style="width:100%;height:120px;margin-top:10px;">
+      </textarea>
+      <button class="btn btn-primary" style="margin-top:10px" (click)="submitReport()">
+        Submit Report
+      </button>
+    </div>
   </div>
 
 </div>

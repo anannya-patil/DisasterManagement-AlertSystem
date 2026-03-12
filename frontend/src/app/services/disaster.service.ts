@@ -8,9 +8,8 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class DisasterService {
-  // ✅ FIXED: Added /api to the URL
-  private apiUrl = 'http://localhost:8080/disasters';  // ✅ CORRECT - no /api
-private adminUrl = 'http://localhost:8080/admin/disasters';  // ✅ This is correct
+  private apiUrl = 'http://localhost:8080/disasters';
+  private adminUrl = 'http://localhost:8080/admin/disasters';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -21,6 +20,13 @@ private adminUrl = 'http://localhost:8080/admin/disasters';  // ✅ This is corr
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
+  }
+
+  getAllUsers(){
+    return this.http.get<any[]>(
+      `http://localhost:8080/admin/users`,
+      {headers:this.getHeaders()}
+    );
   }
 
   // PUBLIC API - Get filtered disasters (WITH AUTH HEADER)

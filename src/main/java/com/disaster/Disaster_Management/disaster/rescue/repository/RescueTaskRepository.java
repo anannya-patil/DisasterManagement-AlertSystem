@@ -1,4 +1,4 @@
-package com.disaster.Disaster_Management.disaster.rescue.controller;
+package com.disaster.Disaster_Management.disaster.rescue.repository;
 
 import com.disaster.Disaster_Management.disaster.rescue.entity.RescueTask;
 import com.disaster.Disaster_Management.disaster.common.TaskStatus;

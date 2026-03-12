@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { DisasterFiltersComponent } from '../disaster-filters/disaster-filters.component';
 import { Router } from '@angular/router';
 import { AlertService } from '../services/alert.service';
+import { RescueService } from '../services/rescue.service';
 
 @Component({
   selector: 'app-disaster-list',
@@ -31,6 +32,7 @@ export class DisasterListComponent implements OnInit, OnDestroy {
   // ========== LOCATION PROPERTIES (DYNAMIC) ==========
   uniqueLocations: string[] = [];        // Unique locations from database
   filteredLocations: string[] = [];      // Filtered locations for search
+
   
   // ========== FILTER PROPERTIES ==========
   currentFilter: DisasterFilter = {
@@ -57,13 +59,19 @@ export class DisasterListComponent implements OnInit, OnDestroy {
   
   // ========== WEBSOCKET PROPERTIES ==========
   private wsSubscription: Subscription | null = null;
+  
+  selectedDisaster:any=null;
+  assignResponderId:number|null=null;
+  assignDescription='';
+  responders:any[]=[];
 
   constructor(
     private disasterService: DisasterService,
     private webSocketService: WebSocketService,
     private authService: AuthService,
     private router: Router,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private rescueService:RescueService
   ) {
     this.userRole = this.authService.getUserRole();
   }
@@ -299,5 +307,42 @@ export class DisasterListComponent implements OnInit, OnDestroy {
       }
     });
 
+  }
+
+  loadResponders(){
+    this.disasterService.getAllUsers().subscribe({
+      next:(users:any[])=>{
+        console.log("ALL USERS:",users);
+        this.responders = users.filter(u => u.role === "RESPONDER");
+        console.log("RESPONDERS:",this.responders);
+      },
+      error:(err)=>console.error(err)
+    });
+  }
+
+  openAssignPanel(disaster:any){
+    this.selectedDisaster=disaster;
+    this.loadResponders();
+  }
+
+  assignResponder(){
+    const payload={
+      disasterId:this.selectedDisaster.id,
+      responderId:this.assignResponderId,
+      zone:this.selectedDisaster.locationName,
+      taskDescription:this.assignDescription,
+      latitude:this.selectedDisaster.latitude,
+      longitude:this.selectedDisaster.longitude
+    };
+
+    this.rescueService.assignTask(payload).subscribe({
+      next:()=>{
+        alert("Responder assigned successfully");
+        this.selectedDisaster=null;
+        this.assignResponderId=null;
+        this.assignDescription='';
+      },
+      error:(err)=>console.error(err)
+    });
   }
 }
