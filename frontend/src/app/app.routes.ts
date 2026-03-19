@@ -11,6 +11,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 import { DisasterListComponent } from './disaster-list/disaster-list.component';
 import { EditDisasterComponent } from './edit-disaster/edit-disaster.component';
+import { AnalyticsDashboardComponent } from './analytics/analytics-dashboard/analytics-dashboard.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -42,7 +43,8 @@ export const routes: Routes = [
     { 
     path: 'disasters', 
     component: DisasterListComponent, 
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard],
+    data: { role: 'ADMIN' }
   },
     { 
   path: 'edit-disaster/:id', 
@@ -55,5 +57,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard] 
   },
   { path: 'unauthorized', component: UnauthorizedComponent },
-  { path: '**', redirectTo: '/login' }
+  { 
+    path: 'analytics', 
+    component: AnalyticsDashboardComponent, 
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'ADMIN' }
+  },
+  { path: '**', redirectTo: '/login' },
 ];

@@ -1,1 +1,178 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+/* ===== LAYOUT ===== */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 250px;
+  background: #020617;
+  color: #e2e8f0;
+  padding: 20px;
+  border-right: 1px solid #1e293b;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.sidebar p {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+/* ===== BUTTONS ===== */
+.btn-disasters {
+  background: #3b82f6;
+  color: white;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: all 0.2s ease;
+}
+
+.btn-disasters:hover {
+  background: #2563eb;
+}
+
+.btn-logout {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-logout:hover {
+  background: #dc2626;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background: #020617;
+}
+
+/* ===== HEADINGS ===== */
+h1 {
+  font-size: 28px;
+  margin-bottom: 25px;
+}
+
+.section {
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 25px;
+  transition: 0.2s;
+}
+
+.section:hover {
+  border-color: #3b82f6;
+}
+
+/* Section title */
+.section h2 {
+  margin-top: 0;
+  font-size: 20px;
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+/* ===== LIST ITEMS ===== */
+.alerts-list {
+  margin-bottom: 10px;
+}
+
+.alert-item {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.alert-item:hover {
+  background: #334155;
+}
+
+/* ===== STATUS COLORS (important upgrade) ===== */
+.alert-item.success {
+  border-left: 4px solid #22c55e;
+}
+
+.alert-item.warning {
+  border-left: 4px solid #f59e0b;
+}
+
+.alert-item.danger {
+  border-left: 4px solid #ef4444;
+}
+
+/* ===== EMPTY STATE ===== */
+.no-alerts {
+  color: #64748b;
+  font-style: italic;
+  text-align: center;
+  padding: 10px;
+}
+
+/* ===== FORMS ===== */
+.form-control {
+  background: #020617;
+  border: 1px solid #334155;
+  color: white;
+}
+
+.form-control:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* ===== BUTTONS (general) ===== */
+.btn-primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+/* ===== SUCCESS MESSAGE ===== */
+.alert-success {
+  background: rgba(34,197,94,0.1);
+  border: 1px solid #22c55e;
+  color: #22c55e;
+}

@@ -24,4 +24,12 @@ public class ResponderEmergencyController {
     public ResponseEntity<List<EmergencyRequest>> getAssignedRequests() {
         return ResponseEntity.ok(emergencyService.getAssignedRequestsForResponder());
     }
+
+    @PutMapping("/emergency-requests/{id}")
+    public ResponseEntity<EmergencyRequest> updateStatus(
+            @PathVariable Long id,
+            @RequestParam String status)
+    {
+        return ResponseEntity.ok(emergencyService.updateRequestStatus(id, status));
+    }
 }

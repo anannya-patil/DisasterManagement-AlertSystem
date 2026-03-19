@@ -10,6 +10,7 @@ import { DisasterFiltersComponent } from '../disaster-filters/disaster-filters.c
 import { Router } from '@angular/router';
 import { AlertService } from '../services/alert.service';
 import { RescueService } from '../services/rescue.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-disaster-list',
@@ -17,7 +18,8 @@ import { RescueService } from '../services/rescue.service';
   imports: [
     CommonModule, 
     FormsModule, 
-    DisasterFiltersComponent
+    DisasterFiltersComponent,
+    RouterModule
   ],
   templateUrl: './disaster-list.component.html',
   styleUrls: ['./disaster-list.component.css']
@@ -38,7 +40,7 @@ export class DisasterListComponent implements OnInit, OnDestroy {
   currentFilter: DisasterFilter = {
     page: 0,
     size: 10,
-    liveOnly: false
+    liveOnly: true
   };
   
   // Filter options for dropdowns

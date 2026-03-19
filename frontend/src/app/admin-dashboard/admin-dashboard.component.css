@@ -3,6 +3,145 @@
   min-height: 100vh;
 }
 
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 250px;
+  background: #020617;
+  color: #e2e8f0;
+  padding: 20px;
+  border-right: 1px solid #1e293b;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.sidebar p {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+/* ===== BUTTONS (SIDEBAR) ===== */
+.btn-disasters {
+  background: #3b82f6;
+  color: white;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: 0.2s;
+}
+
+.btn-disasters:hover {
+  background: #2563eb;
+}
+
+.btn-logout {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.btn-logout:hover {
+  background: #dc2626;
+}
+
+/* ===== MAIN ===== */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background: #020617;
+}
+
+/* ===== SECTION ===== */
+.section {
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.section h2 {
+  margin-top: 0;
+  font-size: 20px;
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 10px;
+}
+
+/* ===== ALERT CARDS ===== */
+.alert-item {
+  background: #0f172a; /* darker than before */
+  border: 1px solid #1e293b;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.alert-item:hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+}
+
+/* ===== BUTTON GROUP ===== */
+.alert-item button {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: 0.2s;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.alert-item button:nth-child(1) {
+  background: #3b82f6; /* approve */
+  color: white;
+}
+
+.alert-item button:nth-child(1):hover {
+  background: #2563eb;
+}
+
+.alert-item button:nth-child(2) {
+  background: #ef4444; /* reject */
+  color: white;
+}
+
+.alert-item button:nth-child(2):hover {
+  background: #dc2626;
+}
+
+.alert-item button:nth-child(3) {
+  background: #22c55e; /* resolve */
+  color: white;
+}
+
+.alert-item button:nth-child(3):hover {
+  background: #16a34a;
+}
+
+.no-alerts {
+  color: #64748b;
+  text-align: center;
+}
+
+/* .dashboard-container {
+  display: flex;
+  min-height: 100vh;
+}
+
 .sidebar {
   width: 250px;
   background: #2c3e50;
@@ -21,7 +160,6 @@
   word-break: break-all;
 }
 
-/* ✅ NEW: Navigation button in sidebar */
 .btn-disasters {
   background: #3498db;
   color: white;
@@ -173,7 +311,6 @@
   margin-bottom: 20px;
 }
 
-/* Optional: Stats section styling (if you add stats later) */
 .stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -200,4 +337,4 @@
   font-size: 32px;
   font-weight: 600;
   color: #3498db;
-}
+} */

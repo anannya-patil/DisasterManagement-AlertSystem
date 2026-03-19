@@ -99,4 +99,13 @@ public class EmergencyRequestService {
 
         return emergencyRepository.findByAssignedResponderId(responder.getId());
     }
+
+    public EmergencyRequest updateRequestStatus(Long requestId, String status)
+    {
+        EmergencyRequest request = emergencyRepository.findById(requestId)
+            .orElseThrow(() -> new RuntimeException("Request not found"));
+
+        request.setStatus(status);
+        return emergencyRepository.save(request);
+    }
 }

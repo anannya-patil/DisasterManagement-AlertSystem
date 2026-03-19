@@ -1,6 +1,9 @@
 <div class="disaster-container">
   <div class="sidebar">
     <h2>Disaster Monitoring</h2>
+    <button class="btn-back" routerLink="/admin">
+      Back to Dashboard
+    </button>
     <div class="search-box">
       <input type="text" placeholder="Search for location" (input)="onSearch($event)" class="search-input">
     </div>
@@ -19,7 +22,7 @@
       </select>
     </div>
     <div class="location-list">
-      <h3>📍 Affected Locations ({{ uniqueLocations.length }})</h3>
+      <h3>Affected Locations ({{ uniqueLocations.length }})</h3>
       <div *ngFor="let loc of filteredLocations" class="location-item" (click)="selectLocation(loc)" [class.active]="currentFilter.location === loc">
         <span class="location-name">{{loc}}</span>
         <span class="location-count">{{ getDisasterCountForLocation(loc) }}</span>

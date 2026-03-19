@@ -44,6 +44,11 @@
           <div style="margin-top:8px;">
             Status: {{ req.status }}
           </div>
+          <button *ngIf="req.status==='ASSIGNED'"
+                  class="btn btn-success"
+                  (click)="completeRequest(req.id)">
+            Mark as Completed
+          </button>
         </div>
         <div *ngIf="emergencyRequests.length === 0" class="no-alerts">
           No assigned emergency requests.
@@ -72,14 +77,12 @@
               Start Task
             </button>
             <button *ngIf="task.taskStatus === 'IN_PROGRESS'"
-                    class="btn"
-                    style="background:#27ae60;color:white"
+                    class="btn btn-success"
                     (click)="completeTask(task.id)">
               Complete Task
             </button>
             <button *ngIf="task.taskStatus === 'COMPLETED'"
-                    class="btn"
-                    style="background:#e67e22;color:white"
+                    class="btn btn-warning"
                     (click)="openReportForm(task.id)">
               Submit Report
             </button>
@@ -87,6 +90,28 @@
         </div>
         <div *ngIf="rescueTasks.length === 0" class="no-alerts">
           No rescue tasks assigned.
+        </div>
+      </div>
+    </div>
+
+    <div class="section" *ngIf="completedTasks.length > 0">
+      <h2>Completed Tasks & Reports</h2>
+
+      <div class="alerts-list">
+        <div *ngFor="let task of completedTasks" class="alert-item">
+          <strong>{{ task.taskDescription }}</strong>
+
+          <div style="margin-top:8px;">
+            Zone: {{ task.zone }}
+          </div>
+
+          <div style="margin-top:8px;">
+            Status: {{ task.taskStatus }}
+          </div>
+
+          <div style="margin-top:8px;">
+            Location: {{ task.latitude }}, {{ task.longitude }}
+          </div>
         </div>
       </div>
     </div>

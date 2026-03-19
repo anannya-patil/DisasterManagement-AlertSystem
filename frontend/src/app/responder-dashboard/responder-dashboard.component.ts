@@ -22,6 +22,7 @@ export class ResponderDashboardComponent implements OnInit {
   userEmail='';
   selectedTaskId:number|null=null;
   reportDetails='';
+  completedTasks:any[]=[];
 
   constructor(
     private alertService:AlertService,
@@ -51,10 +52,21 @@ export class ResponderDashboardComponent implements OnInit {
   loadRequests():void{
     this.emergencyService.getAssignedRequests().subscribe({
       next:(data)=>{
-        this.emergencyRequests=data;
+        this.emergencyRequests = data.filter((r:any) => r.status !== 'COMPLETED')
       },
       error:(err)=>console.error(err)
     });
+  }
+
+  completeRequest(id:number)
+  {
+    this.emergencyService.updateRequestStatus(id,'COMPLETED')
+      .subscribe({
+        next:()=>{
+          this.loadRequests();
+        },
+        error:(err)=>console.error(err)
+      });
   }
 
   loadRescueTasks():void{
@@ -67,7 +79,8 @@ export class ResponderDashboardComponent implements OnInit {
 
     this.rescueService.getResponderTasks(responderId).subscribe({
       next:(data)=>{
-        this.rescueTasks=data;
+        this.rescueTasks = data.filter((t:any)=>t.taskStatus!=='COMPLETED');
+        this.completedTasks = data.filter((t:any)=>t.taskStatus==='COMPLETED');
       },
       error:(err)=>console.error(err)
     });
@@ -130,6 +143,9 @@ export class ResponderDashboardComponent implements OnInit {
     this.rescueService.submitIncidentReport(payload)
       .subscribe({
         next:()=>{
+          this.rescueService.updateTaskStatus(this.selectedTaskId!,'COMPLETED')
+            .subscribe(()=>this.loadRescueTasks());
+
           alert("Report submitted successfully");
           this.reportDetails='';
           this.selectedTaskId=null;

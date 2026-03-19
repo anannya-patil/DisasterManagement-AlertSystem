@@ -2,15 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DisasterService } from '../services/disaster.service';
-import { AlertService } from '../services/alert.service';   // NEW
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { RescueService } from '../services/rescue.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
 })
