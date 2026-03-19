@@ -47,6 +47,10 @@ export class RescueService {
   }
 
   submitIncidentReport(payload:any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/incidents`, payload);
+    return this.http.post(
+      `${this.apiUrl}/incidents`,
+      payload,
+      { headers: this.getHeaders() }
+    );
   }
 }

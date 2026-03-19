@@ -43,7 +43,8 @@ export const routes: Routes = [
     { 
     path: 'disasters', 
     component: DisasterListComponent, 
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard],
+    data: { role: 'ADMIN' }
   },
     { 
   path: 'edit-disaster/:id', 

@@ -42,4 +42,13 @@ export class EmergencyService {
     });
   }
 
+  updateRequestStatus(id:number,status:string)
+  {
+    return this.http.put(
+      `${this.baseUrl}/responder/emergency-requests/${id}?status=${status}`,
+      {},
+      {headers:this.getHeaders()}
+    );
+  }
+
 }

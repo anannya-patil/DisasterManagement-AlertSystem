@@ -40,7 +40,7 @@ export class DisasterListComponent implements OnInit, OnDestroy {
   currentFilter: DisasterFilter = {
     page: 0,
     size: 10,
-    liveOnly: false
+    liveOnly: true
   };
   
   // Filter options for dropdowns
