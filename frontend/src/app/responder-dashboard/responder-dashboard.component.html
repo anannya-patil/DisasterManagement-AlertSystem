@@ -72,14 +72,12 @@
               Start Task
             </button>
             <button *ngIf="task.taskStatus === 'IN_PROGRESS'"
-                    class="btn"
-                    style="background:#27ae60;color:white"
+                    class="btn btn-success"
                     (click)="completeTask(task.id)">
               Complete Task
             </button>
             <button *ngIf="task.taskStatus === 'COMPLETED'"
-                    class="btn"
-                    style="background:#e67e22;color:white"
+                    class="btn btn-warning"
                     (click)="openReportForm(task.id)">
               Submit Report
             </button>
