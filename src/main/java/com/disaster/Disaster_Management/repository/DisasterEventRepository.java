@@ -19,4 +19,13 @@ public interface DisasterEventRepository
           AND created_at <= NOW() - INTERVAL 5 MINUTE
         """, nativeQuery = true)
     List<DisasterEvent> findAutoVerifiableEarthquakes();
+
+    @Query("SELECT d.disasterType, COUNT(d) FROM DisasterEvent d GROUP BY d.disasterType")
+    List<Object[]> countByType();
+
+    @Query("SELECT d.locationName, COUNT(d) FROM DisasterEvent d GROUP BY d.locationName")
+    List<Object[]> countByRegion();
+
+    @Query("SELECT FUNCTION('MONTH', d.eventTime), COUNT(d) FROM DisasterEvent d GROUP BY FUNCTION('MONTH', d.eventTime)")
+    List<Object[]> countByMonth();
 }

@@ -23,4 +23,13 @@ public interface RescueTaskRepository extends JpaRepository<RescueTask, Long> {
     List<Object[]> countTasksByStatus();
     
     List<RescueTask> findByAssignedByAdminId(Long adminId);
+
+    long countByTaskStatus(TaskStatus status);
+
+    @Query(value = """
+        SELECT TIMESTAMPDIFF(MINUTE, assigned_at, updated_at)
+        FROM rescue_tasks
+        WHERE task_status = 'COMPLETED'
+    """, nativeQuery = true)
+    List<Double> calculateResponseTimes();
 }
