@@ -19,8 +19,8 @@
       <h2>Disaster Statistics</h2>
 
       <div class="alerts-list">
-        <div class="alert-item">
-          Total Disasters (Monthly / Yearly data will appear here)
+        <div *ngIf="data.disasters">
+          Total Disasters: {{ data.disasters.total || data.disasters.count || (data.disasters | json) }}
         </div>
       </div>
     </div>
@@ -30,8 +30,8 @@
       <h2>Responder Performance</h2>
 
       <div class="alerts-list">
-        <div class="alert-item">
-          Task completion and responder activity data
+        <div *ngIf="data.responders">
+          Completed Tasks: {{ data.responders?.completedTasks }} / {{ data.responders?.totalTasks }}
         </div>
       </div>
     </div>
@@ -41,8 +41,8 @@
       <h2>Response Time Analysis</h2>
 
       <div class="alerts-list">
-        <div class="alert-item">
-          Average and comparative response times
+        <div *ngIf="data.times">
+          Avg: {{ data.times?.average }} mins | Min: {{ data.times?.min }} | Max: {{ data.times?.max }}
         </div>
       </div>
     </div>
@@ -52,8 +52,8 @@
       <h2>Alert Insights</h2>
 
       <div class="alerts-list">
-        <div class="alert-item">
-          Alerts broadcasted vs acknowledged vs ignored
+        <div *ngIf="data.alerts">
+          Active Alerts: {{ data.alerts.active }}
         </div>
       </div>
     </div>
